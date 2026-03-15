@@ -32,7 +32,7 @@ End‑to‑end ML project predicting **telecom customer churn** using Logistic R
 ![Low Risk](screenshots/low-risk.png)
 
 ### High‑Risk Customer  
-![High Risk](screenshots/high-risk.png)
+![High Risk](Screenshot 2026-03-14 222037.png)
 
 ---
 
