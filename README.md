@@ -25,3 +25,15 @@
 ![High Risk](screenshots/high-risk.png)
 
 ## 🛠️ Tech Stack
+
+
+## 🚀 Quick Start
+```bash
+# Clone
+git clone https://github.com/VEERA16-16/churn-prediction-app.git
+
+# Install
+pip install -r requirements.txt
+
+# Run app
+streamlit run app.py
