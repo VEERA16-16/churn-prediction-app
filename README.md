@@ -4,7 +4,7 @@ End-to-end ML project predicting **telecom customer churn** using Logistic Regre
 
 🔗 **Live Demo:** https://churn-prediction-app1.onrender.com  
 
-[![Open Streamlit App](screenshots/low-risk.png)](https://churn-prediction-app1.onrender.com)
+[![Open Streamlit App](screenshots/Screenshot 2026-03-14 222037.png)](https://churn-prediction-app1.onrender.com)
 
 ---
 
@@ -20,21 +20,21 @@ End-to-end ML project predicting **telecom customer churn** using Logistic Regre
 
 ## ✨ Key Features
 
-- Uses **21 telecom features** such as tenure, contract type, monthly/total charges, and subscribed services.
-- Full **scikit‑learn preprocessing pipeline** (encoding + scaling) wrapped with the model for safe deployment.
-- **Streamlit web app** for instant churn risk predictions with a simple, business-friendly UI.
-- Shows **churn probability** and a clear **risk label** (Low / High) for each customer.
-- Includes space for **business recommendations** like discounts, retention calls, or cross‑sell offers.
+- Uses **21 telecom features** such as tenure, contract type, monthly/total charges, and subscribed services.[file:89]  
+- Full **scikit‑learn preprocessing pipeline** (encoding + scaling) wrapped with the model for safe deployment.[file:89]  
+- **Streamlit web app** for instant churn risk predictions with a simple, business-friendly UI.  
+- Shows **churn probability** and a clear **risk label** (Low / High) for each customer.  
+- Includes space for **business recommendations** like discounts, retention calls, or cross‑sell offers.[file:89]  
 
 ---
 
 ## 📱 Screenshots
 
-### Low‑Risk Customer  
-![Low Risk](screenshots/low-risk.png)
+### Low‑Risk Customer (click to open app)  
+[![Low Risk](screenshots/Screenshot 2026-03-14 222037.png)](https://churn-prediction-app1.onrender.com)
 
-### High‑Risk Customer  
-![High Risk](screenshots/high-risk.png)
+### High‑Risk Customer (click to open app)  
+[![High Risk](screenshots/Screenshot 2026-03-14 222256.png)](https://churn-prediction-app1.onrender.com)
 
 ---
 
@@ -43,7 +43,7 @@ End-to-end ML project predicting **telecom customer churn** using Logistic Regre
 - **Language & Libraries:** Python, pandas, numpy, scikit‑learn, joblib, plotly  
 - **ML:** Logistic Regression (plus Random Forest and Decision Tree baselines)  
 - **App Framework:** Streamlit  
-- **Deployment:** Render Web Service (Python 3.11, `pip install -r requirements.txt`)
+- **Deployment:** Render Web Service (Python 3.11, `pip install -r requirements.txt`)[web:113]  
 
 ---
 
