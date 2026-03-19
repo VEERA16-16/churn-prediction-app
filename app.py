@@ -50,28 +50,35 @@ with col2:
 
 if st.button("🔮 **Predict Churn**", type="primary", use_container_width=True):
 
-    # Create FULL feature set (21 columns expected by model)
+    # Map Yes/No to numeric flags where the model expects numbers
+    senior_citizen_num = 1 if senior_citizen == "Yes" else 0
+    paperless_billing_flag = 1 if paperless_billing == "Yes" else 0
+    device_protection_flag = 1 if device_protection == "Yes" else 0
+    tech_support_flag = 1 if tech_support == "Yes" else 0
+    streaming_tv_flag = 1 if streaming_tv == "Yes" else 0
+
+    # Build input row with correct dtypes
     input_data = {
-        "gender": ["Male"],  # Fixed defaults for missing
-        "SeniorCitizen": [senior_citizen],
+        "gender": ["Male"],                   # categorical
+        "SeniorCitizen": [senior_citizen_num],  # numeric 0/1
         "Partner": ["No"],
         "Dependents": ["No"],
-        "tenure": [tenure],
+        "tenure": [tenure],                   # numeric
         "PhoneService": ["Yes"],
         "MultipleLines": ["No"],
         "InternetService": [internet_service],
         "OnlineSecurity": ["No"],
         "OnlineBackup": ["No"],
-        "DeviceProtection": [device_protection],
-        "TechSupport": [tech_support],
-        "StreamingTV": [streaming_tv],
+        "DeviceProtection": ["Yes" if device_protection_flag else "No"],
+        "TechSupport": ["Yes" if tech_support_flag else "No"],
+        "StreamingTV": ["Yes" if streaming_tv_flag else "No"],
         "StreamingMovies": ["No"],
         "Contract": [contract],
-        "PaperlessBilling": [paperless_billing],
+        "PaperlessBilling": ["Yes" if paperless_billing_flag else "No"],
         "PaymentMethod": [payment_method],
-        "MonthlyCharges": [monthly_charges],
-        "TotalCharges": [total_charges],
-        "customerID": ["test_customer"],  # Dummy ID
+        "MonthlyCharges": [float(monthly_charges)],
+        "TotalCharges": [float(total_charges)],
+        "customerID": ["test_customer"],
     }
 
     input_df = pd.DataFrame(input_data)
