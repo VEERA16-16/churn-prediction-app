@@ -57,39 +57,48 @@ if st.button("🔮 **Predict Churn**", type="primary", use_container_width=True)
     tech_support_flag = 1 if tech_support == "Yes" else 0
     streaming_tv_flag = 1 if streaming_tv == "Yes" else 0
 
-    # Build input row with correct dtypes
-    input_data = {
-        "gender": ["Male"],                   # categorical
-        "SeniorCitizen": [senior_citizen_num],  # numeric 0/1
-        "Partner": ["No"],
-        "Dependents": ["No"],
-        "tenure": [tenure],                   # numeric
-        "PhoneService": ["Yes"],
-        "MultipleLines": ["No"],
-        "InternetService": [internet_service],
-        "OnlineSecurity": ["No"],
-        "OnlineBackup": ["No"],
-        "DeviceProtection": ["Yes" if device_protection_flag else "No"],
-        "TechSupport": ["Yes" if tech_support_flag else "No"],
-        "StreamingTV": ["Yes" if streaming_tv_flag else "No"],
-        "StreamingMovies": ["No"],
-        "Contract": [contract],
-        "PaperlessBilling": ["Yes" if paperless_billing_flag else "No"],
-        "PaymentMethod": [payment_method],
-        "MonthlyCharges": [float(monthly_charges)],
-        "TotalCharges": [float(total_charges)],
-        "customerID": ["test_customer"],
-    }
 
-    input_df = pd.DataFrame(input_data)
+    # Build input row with correct dtypes
+
+input_data = {
+    "gender": gender,  # string, e.g. "Male" / "Female"
+    "SeniorCitizen": int(senior_citizen_num),  # numeric 0/1
+    "Partner": "No",  # or from UI if you later add it
+    "Dependents": "No",
+    "tenure": float(tenure),  # numeric
+    "PhoneService": "Yes",
+    "MultipleLines": "No",
+    "InternetService": internet_service,  # e.g. "DSL", "Fiber optic", "No"
+    "OnlineSecurity": "No",
+    "OnlineBackup": "No",
+    "DeviceProtection": "Yes" if device_protection_flag else "No",
+    "TechSupport": "Yes" if tech_support_flag else "No",
+    "StreamingTV": "Yes" if streaming_tv_flag else "No",
+    "StreamingMovies": "No",
+    "Contract": contract,  # e.g. "Month-to-month"
+    "PaperlessBilling": "Yes" if paperless_billing_flag else "No",
+    "PaymentMethod": payment_method,  # e.g. "Electronic check"
+    "MonthlyCharges": float(monthly_charges),
+    "TotalCharges": float(total_charges) if total_charges not in ["", None] else 0.0,
+    "customerID": "test_customer",
+}
+
+input_df = pd.DataFrame([input_data])
+
 
     # Predict
-    churn_prob = model.predict_proba(input_df)[0, 1]
+churn_prob = model.predict_proba(input_df)[0, 1]
 
-    col1.metric("Churn Risk", f"{churn_prob:.1%}")
-    col2.metric("Status", "🚨 HIGH" if churn_prob > 0.5 else "✅ LOW")
+col1.metric("Churn Risk", f"{churn_prob:.1%}")
+col2.metric("Status", "🚨 HIGH" if churn_prob > 0.5 else "✅ LOW")
 
-    if churn_prob > 0.5:
+st.success(f"**Churn Risk: {churn_status}**")
+st.info(f"**Probability: {churn_prob:.1%}**")
+st.progress(churn_prob)
+st.caption("Model predicts the chance this customer will leave in the next period.")
+
+
+if churn_prob > 0.5:
         st.error("💡 **Retain:** Offer 20% discount")
-    else:
+else:
         st.success("💰 **Upsell:** Premium services")
