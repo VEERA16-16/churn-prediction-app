@@ -66,3 +66,17 @@ pip install -r requirements.txt
 
 # Run the Streamlit app
 streamlit run app.py
+
+
+### Model Overview
+
+The app uses the IBM Telco Customer Churn dataset (7,043 customers) to predict whether a customer will churn in the next period. The final model is a Logistic Regression pipeline built with scikit‑learn:
+
+- Numeric features (`tenure`, `MonthlyCharges`, `TotalCharges`) are standardized.
+- Categorical features (e.g., `gender`, `Contract`, `InternetService`, `PaymentMethod`) are one‑hot encoded with `handle_unknown="ignore"`.
+- Train/test split: 80/20 with stratification on the churn label.
+- Test performance:
+  - ROC‑AUC: **0.842**
+  - Recall (churn class, threshold = 0.50): **0.463**
+
+In the Streamlit app, customers with predicted churn probability above 50% are labeled **High Risk** and flagged for retention actions.
