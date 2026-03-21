@@ -91,8 +91,6 @@ if st.button("🔮 Predict Churn", type="primary", use_container_width=True):
         }
 
         input_df = pd.DataFrame([input_data])
-
-        # ===== DEBUG (Optional but useful) =====
        
 
         # ===== PREDICTION =====
@@ -118,3 +116,31 @@ if st.button("🔮 Predict Churn", type="primary", use_container_width=True):
 
     except Exception as e:
         st.error(f"❌ Prediction Error: {e}")
+
+with st.expander("ℹ️ Model Info"):
+    st.markdown("""
+**Dataset**
+
+- IBM Telco Customer Churn dataset (7,043 customers, 19 features + churn label).
+- Target variable: `Churn` (1 = customer left, 0 = stayed).
+
+**Model**
+
+- Algorithm: Logistic Regression (with class labels 0/1).
+- Preprocessing:
+  - Numeric features (`tenure`, `MonthlyCharges`, `TotalCharges`) are standardized.
+  - Categorical features (e.g., `Contract`, `InternetService`, `PaymentMethod`) are one‑hot encoded with `handle_unknown="ignore"`.
+
+**Evaluation (on 20% test set)**
+
+- ROC‑AUC: **0.842**
+- Recall (Churn=1, threshold 0.50): **0.463**
+
+**Interpretation**
+
+- Higher churn probability → customer is more likely to leave.
+- Threshold 0.50 is used to label **High Risk** vs **Low Risk** in this app.
+- In analysis, shorter tenure, month‑to‑month contracts, and higher monthly charges were the strongest churn drivers.
+""")
+st.markdown("---")
+st.caption("Built as a portfolio project: Telecom Customer Churn Prediction (Logistic Regression pipeline).")
