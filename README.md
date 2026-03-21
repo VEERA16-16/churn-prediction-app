@@ -1,82 +1,76 @@
-# 🚀 Customer Churn Prediction App
+# 🏦 Telecom Customer Churn Prediction (Streamlit App)
 
-End-to-end ML project predicting **telecom customer churn** using Logistic Regression (**F1 = 0.61**).
+Predict telecom customer churn risk using a Logistic Regression model with a complete ML pipeline, deployed as an interactive Streamlit web app.
 
-🔗 **Live Demo:** https://churn-prediction-app1.onrender.com  
+[![Streamlit App](https://img.shields.io/badge/Streamlit-App-blue?logo=streamlit)](https://your-render-app-url.onrender.com)
+[![Model AUC](https://img.shields.io/badge/AUC-0.842-green)](README.md)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 
-[![Open Streamlit App](screenshots/Screenshot 2026-03-14 222037.png)](https://churn-prediction-app1.onrender.com)
+## 📊 Dataset
 
----
+**IBM Telco Customer Churn Dataset** (7,043 customers, 21 columns):
 
-## 📊 Model Performance
+| Category | Features |
+|----------|----------|
+| **Demographics** | Gender, Senior Citizen, Partner, Dependents |
+| **Account Info** | Tenure (months), Contract, Monthly/Total Charges |
+| **Services** | Phone Service, Internet Service, Tech Support, Streaming TV |
+| **Billing** | Paperless Billing, Payment Method |
 
-| Model                | Accuracy | F1‑Score | Recall |
-|----------------------|----------|----------|--------|
-| Logistic Regression  | **80.1%** | **61.0%** | **58.6%** |
-| Random Forest        | 78.6%    | 54.6%    | 48.4% |
-| Decision Tree        | 76.8%    | 52.9%    | 49.2% |
+**Target**: `Churn` (1 = customer left, 0 = stayed) [web:308]
 
----
+## 🧠 Approach
 
-## ✨ Key Features
 
-- Uses **21 telecom features** such as tenure, contract type, monthly/total charges, and subscribed services.[file:89]  
-- Full **scikit‑learn preprocessing pipeline** (encoding + scaling) wrapped with the model for safe deployment.[file:89]  
-- **Streamlit web app** for instant churn risk predictions with a simple, business-friendly UI.  
-- Shows **churn probability** and a clear **risk label** (Low / High) for each customer.  
-- Includes space for **business recommendations** like discounts, retention calls, or cross‑sell offers.[file:89]  
+1. **EDA**: Analyzed distributions, correlations, and churn patterns.
+2. **Preprocessing**: 
+   - Numeric scaling (`tenure`, `MonthlyCharges`, `TotalCharges`).
+   - One-hot encoding for categoricals with `handle_unknown="ignore"`.
+3. **Models**: Compared Logistic Regression vs Random Forest; selected Logistic Regression.
+4. **Pipeline**: Saved as `churn_pipeline.joblib` for production use.
 
----
+## 📈 Model Performance
 
-## 📱 Screenshots
+**Test set (20% holdout)**:
 
-### Low‑Risk Customer (click to open app)  
-[![Low Risk](screenshots/Screenshot 2026-03-14 222037.png)](https://churn-prediction-app1.onrender.com)
+| Metric | Value |
+|--------|-------|
+| ROC‑AUC | **0.842** |
+| Precision (Churn=1) | 0.652 |
+| Recall (Churn=1) | **0.463** |
+| F1‑Score | 0.534 |
 
-### High‑Risk Customer (click to open app)  
-[![High Risk](screenshots/Screenshot 2026-03-14 222256.png)](https://churn-prediction-app1.onrender.com)
+**Key Insights** (from feature analysis):
+1. **Short tenure** → highest churn risk.
+2. **Month‑to‑month contracts** → 3x higher risk vs two‑year.
+3. **High monthly charges** + **Fiber optic** → risky combination [web:292][web:293]
 
----
+## 🚀 Streamlit App Demo
 
-## 🛠️ Tech Stack
+### Features
+- Interactive sliders/dropdowns for all customer features.
+- Live churn probability + risk label.
+- Business suggestions (retention vs upsell).
+- Model info and interpretation.
 
-- **Language & Libraries:** Python, pandas, numpy, scikit‑learn, joblib, plotly  
-- **ML:** Logistic Regression (plus Random Forest and Decision Tree baselines)  
-- **App Framework:** Streamlit  
-- **Deployment:** Render Web Service (Python 3.11, `pip install -r requirements.txt`)[web:113]  
+### Screenshots
+![App Demo](screenshots/app_demo.png)
+![Prediction Result](screenshots/prediction_result.png)
+![Model Info](screenshots/model_info.png)
 
----
+### Live Demo
+🟢 **App**: https://churn-prediction-app-5psk.onrender.com
+📓 **Notebook**: [Untitled.ipynb](Untitled.ipynb)
 
-## 🚀 Quick Start (Run Locally)
 
+### Run Locally
 ```bash
-# Clone the repo
-git clone https://github.com/VEERA16-16/churn-prediction-app.git
-cd churn-prediction-app
-
-# (Optional) create and activate virtual environment
-python -m venv .venv
-# Windows:
-.venv\Scripts\activate
-# Linux / macOS:
-source .venv/bin/activate
+# Clone repo
+git clone https://github.com/yourusername/telco-churn-prediction-streamlit.git
+cd telco-churn-prediction-streamlit
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the Streamlit app
+# Run app
 streamlit run app.py
-
-
-### Model Overview
-
-The app uses the IBM Telco Customer Churn dataset (7,043 customers) to predict whether a customer will churn in the next period. The final model is a Logistic Regression pipeline built with scikit‑learn:
-
-- Numeric features (`tenure`, `MonthlyCharges`, `TotalCharges`) are standardized.
-- Categorical features (e.g., `gender`, `Contract`, `InternetService`, `PaymentMethod`) are one‑hot encoded with `handle_unknown="ignore"`.
-- Train/test split: 80/20 with stratification on the churn label.
-- Test performance:
-  - ROC‑AUC: **0.842**
-  - Recall (churn class, threshold = 0.50): **0.463**
-
-In the Streamlit app, customers with predicted churn probability above 50% are labeled **High Risk** and flagged for retention actions.
