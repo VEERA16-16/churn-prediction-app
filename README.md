@@ -53,13 +53,22 @@ Predict telecom customer churn risk using a Logistic Regression model with a com
 - Business suggestions (retention vs upsell).
 - Model info and interpretation.
 
-### Screenshots
-![App Demo](screenshots/app_demo.png)
-![Prediction Result](screenshots/prediction_result.png)
+## 📸 Screenshots
+
+### Home page
+![App Home](screenshots/app_home.png)
+
+### Low‑risk churn prediction
+![Low Risk Prediction](screenshots/prediction_result.png)
+
+### High‑risk churn prediction
+![High Risk Prediction](screenshots/prediction_result_2.png)
+
+### Model info section
 ![Model Info](screenshots/model_info.png)
 
 ### Live Demo
-🟢 **App**: https://churn-prediction-app-5psk.onrender.com
+🟢 **App**: [https://churn-prediction-app-5psk.onrender.com]
 📓 **Notebook**: [Untitled.ipynb](Untitled.ipynb)
 
 
