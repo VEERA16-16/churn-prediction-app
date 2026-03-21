@@ -59,7 +59,7 @@ Predict telecom customer churn risk using a Logistic Regression model with a com
 ![Model Info](screenshots/model_info.png)
 
 ### Live Demo
-🟢 **App**: [[https://your-app.onrender.com](https://your-app.onrender.com](https://churn-prediction-app-5psk.onrender.com))  
+🟢 **App**: [[https://your-app.onrender.com](https://your-app.onrender.com](https://churn-prediction-app-5psk.onrender.com)]  
 📓 **Notebook**: [notebooks/churn_model.ipynb](notebooks/churn_model.ipynb)
 
 ### Run Locally
