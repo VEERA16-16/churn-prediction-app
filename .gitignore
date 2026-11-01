@@ -1,0 +1,11 @@
+# Python & virtual environment
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Ignore large datasets and model binaries to prevent GitHub file size issues
+data/*.csv
+models/*.pkl
+models/*.joblib

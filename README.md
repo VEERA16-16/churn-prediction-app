@@ -1,85 +1,161 @@
-# 🏦 Telecom Customer Churn Prediction (Streamlit App)
+# 🏦 Telecom Customer Churn Prediction & Retention ML App
 
-Predict telecom customer churn risk using a Logistic Regression model with a complete ML pipeline, deployed as an interactive Streamlit web app.
+An end-to-end Machine Learning web application designed to forecast subscriber churn probability and recommend targeted retention strategies for telecom accounts. Powered by a Scikit-learn classification pipeline (ROC-AUC: **0.842**) and deployed via an interactive Streamlit web dashboard.
 
-[![Streamlit App](https://img.shields.io/badge/Streamlit-App-blue?logo=streamlit)](https://your-render-app-url.onrender.com)
-[![Model AUC](https://img.shields.io/badge/AUC-0.842-green)](README.md)
-[![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+---
 
-## 📊 Dataset
+## 📌 Architecture & System Workflow
 
-**IBM Telco Customer Churn Dataset** (7,043 customers, 21 columns):
+The pipeline ingests multi-attribute customer profiles, runs automated cleaning, encoding, and scaling transforms via a serialized pipeline (`churn_pipeline.joblib`), and outputs calibrated churn probabilities paired with retention actions.
 
-| Category | Features |
-|----------|----------|
-| **Demographics** | Gender, Senior Citizen, Partner, Dependents |
-| **Account Info** | Tenure (months), Contract, Monthly/Total Charges |
-| **Services** | Phone Service, Internet Service, Tech Support, Streaming TV |
-| **Billing** | Paperless Billing, Payment Method |
+```text
+[ Raw Customer Input (Streamlit UI) ]
+                  │
+                  ▼
+      [ Preprocessing Pipeline ]
+  ├── Numeric Scaling (StandardScaler)
+  └── Categorical Encoding (OneHotEncoder, handle_unknown="ignore")
+                  │
+                  ▼
+      [ Logistic Regression Engine ]
+       (ROC-AUC: 0.842 | C-regularized)
+                  │
+                  ▼
+       [ Calibrated Risk Engine ]
+  ├── Real-Time Risk Score (0.00 – 1.00)
+  ├── Decision Boundary Thresholding (0.50)
+  └── Action Matrix (Loyalty Discounts vs. Retention Incentives)
 
-**Target**: `Churn` (1 = customer left, 0 = stayed) [web:308]
+```
 
-## 🧠 Approach
+---
 
+## 📊 Dataset Breakdown
 
-1. **EDA**: Analyzed distributions, correlations, and churn patterns.
-2. **Preprocessing**: 
-   - Numeric scaling (`tenure`, `MonthlyCharges`, `TotalCharges`).
-   - One-hot encoding for categoricals with `handle_unknown="ignore"`.
-3. **Models**: Compared Logistic Regression vs Random Forest; selected Logistic Regression.
-4. **Pipeline**: Saved as `churn_pipeline.joblib` for production use.
+Trained and evaluated on the **IBM Telco Customer Churn Dataset** (7,043 customer accounts across 21 feature attributes):
 
-## 📈 Model Performance
+| Domain | Tracked Attributes |
+| --- | --- |
+| **Account Demographics** | Gender, Senior Citizen, Partner, Dependents |
+| **Contract & Services** | Tenure (months), Contract Type, Internet Service, Tech Support, Streaming TV |
+| **Billing & Payments** | Paperless Billing, Payment Method, Monthly Charges, Total Charges |
+| **Target Variable** | `Churn` (1 = Customer Attrited, 0 = Customer Retained) |
 
-**Test set (20% holdout)**:
+---
 
-| Metric | Value |
-|--------|-------|
-| ROC‑AUC | **0.842** |
-| Precision (Churn=1) | 0.652 |
-| Recall (Churn=1) | **0.463** |
-| F1‑Score | 0.534 |
+## 📈 Model Performance & Evaluation
 
-**Key Insights** (from feature analysis):
-1. **Short tenure** → highest churn risk.
-2. **Month‑to‑month contracts** → 3x higher risk vs two‑year.
-3. **High monthly charges** + **Fiber optic** → risky combination [web:292][web:293]
+Evaluated against a stratified 20% holdout test set:
 
-## 🚀 Streamlit App Demo
+| Evaluation Metric | Test Score |
+| --- | --- |
+| **ROC-AUC** | **0.842** |
+| **Precision (Churn = 1)** | **0.652** |
+| **Recall (Churn = 1)** | **0.463** |
+| **F1-Score** | **0.534** |
 
-### Features
-- Interactive sliders/dropdowns for all customer features.
-- Live churn probability + risk label.
-- Business suggestions (retention vs upsell).
-- Model info and interpretation.
+### Key Business & Feature Insights
 
-## 📸 Screenshots
+1. **Tenure Impact:** Short customer tenure ($\le 12\text{ months}$) represents the single highest predictor of subscriber churn.
+2. **Contract Duration:** Month-to-month contracts demonstrate a **$3\times$ higher churn rate** relative to one- or two-year commitments.
+3. **High Monthly Spend + Fiber Optic:** Accounts with higher monthly billing tiers subscribed to Fiber Optic internet without attached Tech Support services demonstrate elevated attrition risk.
 
-### Home page
-![App Home](screenshots/app_home.png)
+---
 
-### Low‑risk churn prediction
-![Low Risk Prediction](screenshots/prediction_result.png)
+## 🚀 Interactive Streamlit Features
 
-### High‑risk churn prediction
-![High Risk Prediction](screenshots/prediction_result_2.png)
+* **Dynamic Risk Simulation:** Sliders and dropdown menus for modifying customer contract types, payment methods, and spend variables.
+* **Instant Risk Probability:** Real-time percentage calculation of attrition probability.
+* **Prescriptive Action Plan:** Automated generation of recommended business decisions (e.g., contract upgrade incentives for high-risk accounts; upsell campaigns for low-risk accounts).
+* **Interpretability Section:** Feature weight breakdowns explaining why a customer received their risk classification.
 
-### Model info section
-![Model Info](screenshots/model_info.png)
+---
 
-### Live Demo
-🟢 **App**: [https://churn-prediction-app-5psk.onrender.com]
-📓 **Notebook**: [Untitled.ipynb](Untitled.ipynb)
+## 📂 Repository Structure
 
+```text
+telco-churn-prediction-streamlit/
+├── data/                      # IBM Telco Churn CSV dataset
+├── models/                    # Serialized model pipeline (churn_pipeline.joblib)
+├── screenshots/               # UI application screenshots
+├── src/                       # Source modules for training & evaluation
+├── app.py                     # Streamlit frontend entrypoint
+├── requirements.txt           # Locked dependencies
+├── .gitignore                 # Exclusion rules for virtual environments and data
+└── README.md                  # Project overview and reproduction instructions
 
-### Run Locally
+```
+
+---
+
+## 🛠️ Tech Stack
+
+* **Language:** Python 3.9+
+* **ML Framework:** Scikit-learn, Joblib
+* **Data Manipulation:** Pandas, NumPy
+* **Application Framework:** Streamlit
+* **Hosting:** Render
+
+---
+
+## ⚙️ Installation & Local Setup
+
+### 1. Clone the Repository
+
 ```bash
-# Clone repo
-git clone https://github.com/yourusername/telco-churn-prediction-streamlit.git
+git clone https://github.com/VEERA16-16/telco-churn-prediction-streamlit.git
 cd telco-churn-prediction-streamlit
 
-# Install dependencies
+```
+
+### 2. Set Up Virtual Environment
+
+**Windows:**
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\activate
+
+```
+
+**macOS/Linux:**
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+
+```
+
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
 
-# Run app
+```
+
+### 4. Run the Application
+
+```bash
 streamlit run app.py
+
+```
+
+---
+
+## 🌐 Live Deployment
+
+Access the live interactive application on Render:
+
+👉 **Live Web App:** [https://churn-prediction-app-5psk.onrender.com](https://churn-prediction-app-5psk.onrender.com)
+
+---
+
+## 👨‍💻 Author
+
+**Veeramanikandan P**
+
+*Aspiring Machine Learning & AI Engineer*
+
+* GitHub: [@VEERA16-16](https://www.google.com/search?q=https://github.com/VEERA16-16)
+* LinkedIn: [Veeramanikandan P](https://www.google.com/search?q=https://linkedin.com/in/mr-veeramanikandan-16v07p)
+* Kaggle: [@veeramanikandan1](https://kaggle.com/veeramanikandan1)
