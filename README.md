@@ -143,12 +143,8 @@ streamlit run app.py
 ---
 
 ## 🌐 Live Deployment
-
-Access the live interactive application on Render:
-
-👉 **Live Web App:** [https://churn-prediction-app-5psk.onrender.com](https://churn-prediction-app-5psk.onrender.com)
-
----
+Access the interactive web dashboard live on Streamlit Community Cloud:  
+👉 **Live Web App:** [https://churn-prediction-app-dqsjctqfdubxky47pelt8q.streamlit.app](https://churn-prediction-app-dqsjctqfdubxky47pelt8q.streamlit.app)
 
 ## 👨‍💻 Author
 
